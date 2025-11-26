@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/icons.css">
+    <style>
+        .profile-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+        
+        .profile-info h2 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .profile-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .profile-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            transition: var(--transition);
+        }
+        
+        .profile-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: -2px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            padding: 1rem;
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-time {
+            font-size: 0.85rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">Demo Components</a>
+            <ul class="navbar-menu">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/auth">Авторизация</a></li>
+                <li><a href="/profile">Профиль</a></li>
+                <li><a href="/components">Компоненты</a></li>
+                <li><a href="/shop">Магазин</a></li>
+                <li><a href="/media">Медиа</a></li>
+                <li><a href="/common">Общие</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            <div class="profile-info">
+                <h2>Иван Иванов</h2>
+                <p>ivan@example.com</p>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">42</div>
+                        <div class="profile-stat-label">Заказов</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">15</div>
+                        <div class="profile-stat-label">Отзывов</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">89%</div>
+                        <div class="profile-stat-label">Рейтинг</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <button class="profile-tab active" data-tab="info">Личная информация</button>
+            <button class="profile-tab" data-tab="activity">Активность</button>
+            <button class="profile-tab" data-tab="settings">Настройки</button>
+        </div>
+
+        <!-- Вкладка: Личная информация -->
+        <div id="info" class="tab-content active">
+            <div class="card">
+                <div class="card-header">Личные данные</div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Полное имя</div>
+                            <div class="info-value">Иван Иванович Иванов</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">ivan@example.com</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Телефон</div>
+                            <div class="info-value">+7 (999) 123-45-67</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Дата рождения</div>
+                            <div class="info-value">15 марта 1990</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Город</div>
+                            <div class="info-value">Москва</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Дата регистрации</div>
+                            <div class="info-value">01 января 2024</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-3" onclick="editProfile()">Редактировать профиль</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: Активность -->
+        <div id="activity" class="tab-content">
+            <div class="card">
+                <div class="card-header">Последняя активность</div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </div>
+                        <div class="activity-content">
+                            <div><strong>Новый заказ</strong></div>
+                            <div style="color: #666;">Оформлен заказ №1234</div>
+                        </div>
+                        <div class="activity-time">2 часа назад</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="activity-content">
+                            <div><strong>Новый отзыв</strong></div>
+                            <div style="color: #666;">Оставлен отзыв на товар</div>
+                        </div>
+                        <div class="activity-time">1 день назад</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <div class="activity-content">
+                            <div><strong>Обновление профиля</strong></div>
+                            <div style="color: #666;">Изменены личные данные</div>
+                        </div>
+                        <div class="activity-time">3 дня назад</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <div class="activity-content">
+                            <div><strong>Смена пароля</strong></div>
+                            <div style="color: #666;">Пароль успешно изменен</div>
+                        </div>
+                        <div class="activity-time">1 неделю назад</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: Настройки -->
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <div class="card-header">Настройки аккаунта</div>
+                <div class="card-body">
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="emailNotifications">
+                                <input type="checkbox" id="emailNotifications" checked>
+                                Получать уведомления на email
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="smsNotifications">
+                                <input type="checkbox" id="smsNotifications">
+                                Получать SMS-уведомления
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsletter">
+                                <input type="checkbox" id="newsletter" checked>
+                                Подписаться на рассылку новостей
+                            </label>
+                        </div>
+                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e0e0e0;">
+                        <div class="form-group">
+                            <label for="currentPassword">Текущий пароль</label>
+                            <input type="password" id="currentPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Новый пароль</label>
+                            <input type="password" id="newPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Подтвердите новый пароль</label>
+                            <input type="password" id="confirmPassword" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        <button type="button" class="btn btn-danger" style="margin-left: 1rem;">Удалить аккаунт</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <script src="/static/js/main.js"></script>
+    <script>
+        // Переключение между вкладками
+        document.querySelectorAll('.profile-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                // Обновляем активную вкладку
+                document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Показываем соответствующий контент
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(tabName).classList.add('active');
+            });
+        });
+        
+        // Редактирование профиля
+        function editProfile() {
+            showNotification('Открыта форма редактирования профиля', 'success');
+        }
+        
+        // Сохранение настроек
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showNotification('Настройки успешно сохранены', 'success');
+        });
+    </script>
+</body>
+</html>

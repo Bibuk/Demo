@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демонстрационный сайт компонентов</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/icons.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">Demo Components</a>
+            <ul class="navbar-menu">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/auth">Авторизация</a></li>
+                <li><a href="/profile">Профиль</a></li>
+                <li><a href="/components">Компоненты</a></li>
+                <li><a href="/shop">Магазин</a></li>
+                <li><a href="/media">Медиа</a></li>
+                <li><a href="/common">Общие</a></li>
+                <li><a href="/support-dashboard" id="supportNavLink" style="display: none; color: #4CAF50; font-weight: 600;">Поддержка</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Демонстрационный сайт компонентов</h1>
+            <p>Коллекция готовых компонентов для создания современных веб-приложений</p>
+            <a href="#components" class="btn btn-primary">Посмотреть компоненты</a>
+        </div>
+    </section>
+
+    <section class="container" id="components">
+        <h2 class="text-center mt-4 mb-4">Доступные компоненты</h2>
+        <div class="components-grid">
+            <a href="/auth" class="component-card">
+                <h3><span class="icon icon-lock icon-md"></span> Авторизация/Регистрация</h3>
+                <p>Готовые формы входа и регистрации с валидацией и обработкой ошибок</p>
+                <ul style="margin-top: 1rem; color: #666;">
+                    <li>Форма входа</li>
+                    <li>Форма регистрации</li>
+                    <li>Восстановление пароля</li>
+                    <li>Социальные сети</li>
+                </ul>
+            </a>
+
+            <a href="/profile" class="component-card">
+                <h3><span class="icon icon-user icon-md"></span> Профиль клиента</h3>
+                <p>Шаблон профиля пользователя с редактированием данных</p>
+                <ul style="margin-top: 1rem; color: #666;">
+                    <li>Карточка профиля</li>
+                    <li>Редактирование данных</li>
+                    <li>Аватар пользователя</li>
+                    <li>История активности</li>
+                </ul>
+            </a>
+
+            <a href="/components" class="component-card">
+                <h3><span class="icon icon-components icon-md"></span> Интерфейсные компоненты</h3>
+                <p>Базовые UI элементы для построения интерфейса</p>
+                <ul style="margin-top: 1rem; color: #666;">
+                    <li>Кнопки и формы</li>
+                    <li>Модальные окна</li>
+                    <li>Уведомления</li>
+                    <li>Таблицы и карточки</li>
+                </ul>
+            </a>
+
+            <a href="/shop" class="component-card">
+                <h3><span class="icon icon-shop icon-md"></span> Компоненты для магазинов</h3>
+                <p>Элементы для создания интернет-магазинов</p>
+                <ul style="margin-top: 1rem; color: #666;">
+                    <li>Карточки товаров</li>
+                    <li>Корзина покупок</li>
+                    <li>Каталог с фильтрами</li>
+                    <li>Оформление заказа</li>
+                </ul>
+            </a>
+
+            <a href="/media" class="component-card">
+                <h3><span class="icon icon-media icon-md"></span> Контент и медиа</h3>
+                <p>Компоненты для работы с мультимедиа контентом</p>
+                <ul style="margin-top: 1rem; color: #666;">
+                    <li>Галереи изображений</li>
+                    <li>Видео плеер</li>
+                    <li>Слайдер контента</li>
+                    <li>Загрузка файлов</li>
+                </ul>
+            </a>
+
+            <a href="/common" class="component-card">
+                <h3><span class="icon icon-sparkle icon-md"></span> Общие компоненты</h3>
+                <p>Универсальные элементы для любого проекта</p>
+                <ul style="margin-top: 1rem; color: #666;">
+                    <li>Навигация</li>
+                    <li>Футер</li>
+                    <li>Навигационная цепочка</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <section class="container py-4">
+        <div class="card">
+            <div class="card-header">О проекте</div>
+            <div class="card-body">
+                <p>Этот демонстрационный сайт создан для презентации готовых компонентов, которые можно использовать при разработке веб-приложений. Все компоненты разработаны с использованием современных технологий:</p>
+                <ul style="margin-top: 1rem;">
+                    <li><strong>Backend:</strong> FastAPI - быстрый и современный Python фреймворк</li>
+                    <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (ES6+)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <script src="/static/js/main.js?v=4"></script>
+    <script>
+        // Проверка и отображение ссылки на панель поддержки
+        (function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                fetch('/api/profile/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                .then(response => response.ok ? response.json() : Promise.reject())
+                .then(user => {
+                    if (user.username === 'support') {
+                        const link = document.getElementById('supportNavLink');
+                        if (link) link.style.display = 'block';
+                    }
+                })
+                .catch(() => {});
+            }
+        })();
+    </script>
+</body>
+</html>

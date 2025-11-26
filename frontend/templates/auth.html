@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация и Регистрация</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=6">
+    <link rel="stylesheet" href="/static/css/icons.css?v=6">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 3rem auto;
+            padding: 0 20px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: -2px;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .social-btn .icon {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .social-btn svg {
+            display: block;
+            margin: 0;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: #ddd;
+        }
+        
+        .divider span {
+            background: var(--bg-color);
+            padding: 0 1rem;
+            position: relative;
+            color: #666;
+        }
+        
+        .password-toggle {
+            position: relative;
+            display: block;
+        }
+        
+        .password-toggle input {
+            padding-right: 3rem !important;
+            width: 100%;
+        }
+        
+        /* Скрываем встроенную иконку браузера для показа пароля */
+        .password-toggle input::-ms-reveal,
+        .password-toggle input::-ms-clear {
+            display: none;
+        }
+        
+        .password-toggle input::-webkit-credentials-auto-fill-button,
+        .password-toggle input::-webkit-contacts-auto-fill-button {
+            visibility: hidden;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+        }
+        
+        .password-toggle-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 48px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            transition: all 0.2s ease;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .password-toggle-btn:hover {
+            color: var(--primary-color);
+            background: rgba(76, 175, 80, 0.05);
+        }
+        
+        .password-toggle-btn svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .verification-step {
+            display: none;
+        }
+        
+        .verification-step.active {
+            display: block;
+        }
+        
+        .code-input {
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .password-requirements {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .password-requirements ul {
+            margin: 0.5rem 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        .password-requirements li {
+            margin: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .password-requirements li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .password-requirements li.valid {
+            color: #4caf50;
+        }
+        
+        .password-requirements li.valid::before {
+            content: '✓';
+            color: #4caf50;
+        }
+        
+        .password-requirements li.invalid {
+            color: #f44336;
+        }
+        
+        .password-requirements li.invalid::before {
+            color: #f44336;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">Demo Components</a>
+            <ul class="navbar-menu">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/auth" class="active">Авторизация</a></li>
+                <li><a href="/profile">Профиль</a></li>
+                <li><a href="/components">Компоненты</a></li>
+                <li><a href="/shop">Магазин</a></li>
+                <li><a href="/media">Медиа</a></li>
+                <li><a href="/common">Общие</a></li>
+                <li><a href="/support-dashboard" id="supportNavLink" style="display: none; color: #4CAF50; font-weight: 600;">Поддержка</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+
+            <!-- Форма входа -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="pochta@tochka.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Пароль</label>
+                    <div class="password-toggle">
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Пароль" required>
+                        <button type="button" class="password-toggle-btn" onclick="togglePassword('loginPassword')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe" style="margin: 0;">Запомнить меня</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <span class="btn-text">Войти</span>
+                </button>
+                
+                <div class="divider">
+                    <span>или войти через</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="social-btn" onclick="loginWithVK()" title="Войти через ВКонтакте">
+                        <svg width="38" height="38" viewBox="0 0 24 24" fill="#0077FF">
+                            <path d="M12.785 16.241s.288-.032.436-.194c.136-.149.132-.428.132-.428s-.019-1.307.587-1.5c.597-.19 1.364 1.263 2.177 1.823.615.424 1.083.331 1.083.331l2.177-.03s1.139-.071.599-.967c-.044-.074-.315-.663-1.622-1.876-1.368-1.269-1.185-1.064.463-3.259.1-.134 1.637-2.303 1.806-3.087 0 0 .09-.291-.027-.413-.11-.115-.397-.085-.397-.085l-2.45.015s-.182-.025-.317.056c-.131.079-.215.263-.215.263s-.385 1.024-.898 1.894c-1.082 1.835-1.515 1.932-1.692 1.817-.412-.267-.309-1.073-.309-1.645 0-1.788.271-2.533-.528-2.725-.265-.064-.46-.106-1.137-.113-.869-.009-1.605.003-2.021.207-.277.136-.491.439-.361.456.161.022.526.099.72.362.25.341.241 1.106.241 1.106s.144 2.104-.335 2.365c-.329.179-.78-.187-1.75-1.862-.496-.85-.871-1.79-.871-1.79s-.072-.177-.201-.272c-.156-.114-.374-.15-.374-.15l-2.328.015s-.349.01-.478.162c-.114.135-.009.414-.009.414s1.812 4.238 3.865 6.375c1.883 1.96 4.018 1.832 4.018 1.832h.968z"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="social-btn" onclick="loginWithGoogle()" title="Войти через Google">
+                        <span class="icon icon-google"></span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Форма регистрации -->
+            <form id="registerForm" class="auth-form">
+                <div id="registerStep1" class="registration-step active">
+                    <div class="form-group">
+                        <label for="regUsername">Имя пользователя</label>
+                        <input type="text" id="regUsername" class="form-control" 
+                               placeholder="ivanov_ivan" minlength="3" maxlength="50" required>
+                        <small style="color: #666;">Минимум 3 символа, только буквы, цифры, дефис и _</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" class="form-control" 
+                               placeholder="pochta@tochka.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regPassword">Пароль</label>
+                        <div class="password-toggle">
+                            <input type="password" id="regPassword" class="form-control" 
+                                   placeholder="Пароль" required>
+                            <button type="button" class="password-toggle-btn" onclick="togglePassword('regPassword')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="password-requirements">
+                            <ul id="passwordReqs">
+                                <li class="invalid">Минимум 8 символов</li>
+                                <li class="invalid">Хотя бы одна заглавная буква (A-Z)</li>
+                                <li class="invalid">Хотя бы одна строчная буква (a-z)</li>
+                                <li class="invalid">Хотя бы одна цифра (0-9)</li>
+                                <li class="invalid">Хотя бы один спецсимвол (!@#$%...)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regPasswordConfirm">Подтвердите пароль</label>
+                        <div class="password-toggle">
+                            <input type="password" id="regPasswordConfirm" class="form-control" 
+                                   placeholder="Подтвердите пароль" required>
+                            <button type="button" class="password-toggle-btn" onclick="togglePassword('regPasswordConfirm')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms" style="margin: 0;">Я согласен с <a href="/terms" target="_blank" style="color: var(--primary-color); text-decoration: none;">условиями использования</a></label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span class="btn-text">Зарегистрироваться</span>
+                    </button>
+                </div>
+
+                <!-- Шаг верификации email -->
+                <div id="registerStep2" class="verification-step">
+                    <h3 style="text-align: center; margin-bottom: 1rem;">Подтверждение Email</h3>
+                    <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+                        Мы отправили код подтверждения на <strong id="verifyEmail"></strong>
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="verificationCode">Введите 6-значный код</label>
+                        <input type="text" id="verificationCode" class="form-control code-input" 
+                               maxlength="6" pattern="[0-9]{6}" placeholder="000000">
+                        <small style="color: #666;">Код действителен 10 минут</small>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" style="width: 100%;" onclick="verifyCode()">
+                        <span class="btn-text">Подтвердить</span>
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button type="button" class="btn" onclick="resendCode()" style="background: none; color: var(--primary-color);">
+                            Отправить код повторно
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="divider">
+                    <span>или зарегистрироваться через</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="social-btn" onclick="loginWithVK()" title="Регистрация через ВКонтакте">
+                        <svg width="38" height="38" viewBox="0 0 24 24" fill="#0077FF">
+                            <path d="M12.785 16.241s.288-.032.436-.194c.136-.149.132-.428.132-.428s-.019-1.307.587-1.5c.597-.19 1.364 1.263 2.177 1.823.615.424 1.083.331 1.083.331l2.177-.03s1.139-.071.599-.967c-.044-.074-.315-.663-1.622-1.876-1.368-1.269-1.185-1.064.463-3.259.1-.134 1.637-2.303 1.806-3.087 0 0 .09-.291-.027-.413-.11-.115-.397-.085-.397-.085l-2.45.015s-.182-.025-.317.056c-.131.079-.215.263-.215.263s-.385 1.024-.898 1.894c-1.082 1.835-1.515 1.932-1.692 1.817-.412-.267-.309-1.073-.309-1.645 0-1.788.271-2.533-.528-2.725-.265-.064-.46-.106-1.137-.113-.869-.009-1.605.003-2.021.207-.277.136-.491.439-.361.456.161.022.526.099.72.362.25.341.241 1.106.241 1.106s.144 2.104-.335 2.365c-.329.179-.78-.187-1.75-1.862-.496-.85-.871-1.79-.871-1.79s-.072-.177-.201-.272c-.156-.114-.374-.15-.374-.15l-2.328.015s-.349.01-.478.162c-.114.135-.009.414-.009.414s1.812 4.238 3.865 6.375c1.883 1.96 4.018 1.832 4.018 1.832h.968z"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="social-btn" onclick="loginWithGoogle()" title="Регистрация через Google">
+                        <span class="icon icon-google"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <script src="/static/js/main.js?v=5"></script>
+    <script>
+        let registrationEmail = '';
+        
+        // Переключение между вкладками
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                document.getElementById(tabName + 'Form').classList.add('active');
+                
+                // Сброс формы регистрации при переключении
+                if (tabName === 'register') {
+                    document.getElementById('registerStep1').classList.add('active');
+                    document.getElementById('registerStep2').classList.remove('active');
+                }
+            });
+        });
+        
+        // Переключение видимости пароля
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const btn = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                // Меняем на иконку закрытого глаза
+                btn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                `;
+            } else {
+                input.type = 'password';
+                // Меняем на иконку открытого глаза
+                btn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                `;
+            }
+        }
+        
+        // Валидация пароля в реальном времени
+        document.getElementById('regPassword')?.addEventListener('input', (e) => {
+            const password = e.target.value;
+            const reqs = document.querySelectorAll('#passwordReqs li');
+            
+            reqs[0].className = password.length >= 8 ? 'valid' : 'invalid';
+            reqs[1].className = /[A-Z]/.test(password) ? 'valid' : 'invalid';
+            reqs[2].className = /[a-z]/.test(password) ? 'valid' : 'invalid';
+            reqs[3].className = /\d/.test(password) ? 'valid' : 'invalid';
+            reqs[4].className = /[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'valid' : 'invalid';
+        });
+        
+        // Обработка входа
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const btnText = btn.querySelector('.btn-text');
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            btnText.innerHTML = '<span class="loading"></span> Вход...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showNotification('Успешный вход в систему!', 'success');
+                    setTimeout(() => window.location.href = '/profile', 1000);
+                } else {
+                    showNotification(`${data.detail || 'Ошибка входа'}`, 'error');
+                    btnText.textContent = 'Войти';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                showNotification('❌ Ошибка подключения к серверу', 'error');
+                btnText.textContent = 'Войти';
+                btn.disabled = false;
+            }
+        });
+        
+        // Обработка регистрации
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const btnText = btn.querySelector('.btn-text');
+            
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+            
+            if (password !== passwordConfirm) {
+                showNotification('Пароли не совпадают', 'error');
+                return;
+            }
+            
+            btnText.innerHTML = '<span class="loading"></span> Регистрация...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    registrationEmail = email;
+                    document.getElementById('verifyEmail').textContent = email;
+                    document.getElementById('registerStep1').classList.remove('active');
+                    document.getElementById('registerStep2').classList.add('active');
+                    
+                    showNotification(`${data.message}`, 'success');
+                } else {
+                    showNotification(`${data.detail || 'Ошибка регистрации'}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Ошибка подключения к серверу', 'error');
+            } finally {
+                btnText.textContent = 'Зарегистрироваться';
+                btn.disabled = false;
+            }
+        });
+        
+        // Верификация кода
+        async function verifyCode() {
+            const code = document.getElementById('verificationCode').value;
+            
+            if (code.length !== 6) {
+                showNotification('Введите 6-значный код', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/auth/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: registrationEmail,
+                        code: code 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showNotification('Email подтвержден! Добро пожаловать!', 'success');
+                    setTimeout(() => window.location.href = '/profile', 1500);
+                } else {
+                    showNotification(`${data.detail || 'Неверный код'}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Ошибка подключения к серверу', 'error');
+            }
+        }
+        
+        // Повторная отправка кода
+        async function resendCode() {
+            try {
+                const response = await fetch('/api/auth/resend-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: registrationEmail })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showNotification('Новый код отправлен на email', 'success');
+                    document.getElementById('verificationCode').value = '';
+                } else {
+                    showNotification(`${data.detail || 'Ошибка отправки кода'}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Ошибка подключения к серверу', 'error');
+            }
+        }
+        
+        // OAuth VK
+        async function loginWithVK() {
+            try {
+                const response = await fetch('/api/auth/vk');
+                const data = await response.json();
+                
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    showNotification((data.detail || 'VK OAuth не настроен'), 'error');
+                }
+            } catch (error) {
+                showNotification('❌ Ошибка подключения', 'error');
+            }
+        }
+        
+        // OAuth Google
+        function loginWithGoogle() {
+            window.location.href = '/api/auth/google';
+        }
+        
+        // Проверка токена при загрузке (для OAuth callback)
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            const provider = urlParams.get('provider');
+            
+            if (token) {
+                localStorage.setItem('token', token);
+                showNotification(`✅ Успешный вход через ${provider}!`, 'success');
+                
+                // Очистка URL
+                window.history.replaceState({}, document.title, '/auth');
+                
+                setTimeout(() => window.location.href = '/profile', 1500);
+            }
+        });
+        
+        // Автоматический ввод кода (только цифры)
+        document.getElementById('verificationCode')?.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+        
+        // Проверка и отображение ссылки на панель поддержки
+        (function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                fetch('/api/profile/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                .then(response => response.ok ? response.json() : Promise.reject())
+                .then(user => {
+                    if (user.username === 'support') {
+                        const link = document.getElementById('supportNavLink');
+                        if (link) link.style.display = 'block';
+                    }
+                })
+                .catch(() => {});
+            }
+        })();
+    </script>
+</body>
+</html>

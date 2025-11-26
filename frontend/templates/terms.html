@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Условия использования</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .terms-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+        }
+        
+        .terms-container h1 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">Demo Components</a>
+            <ul class="navbar-menu">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/auth">Авторизация</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="terms-container">
+        <div class="card">
+            <h1>Условия использования</h1>
+        </div>
+    </div>
+
+    <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+    <script src="/static/js/main.js?v=4"></script>
+</body>
+</html>
