@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Form
 from pydantic import BaseModel
 from typing import List, Optional
+from datetime import datetime
 
 router = APIRouter(prefix="/shop", tags=["Магазин"])
 
@@ -23,6 +24,24 @@ class OrderCreate(BaseModel):
     customer_name: str
     customer_email: str
     customer_phone: str
+
+class ProductCreate(BaseModel):
+    name: str
+    price: float
+    description: str
+    image: str
+    category: str
+
+class ProductUpdate(BaseModel):
+    name: Optional[str] = None
+    price: Optional[float] = None
+    old_price: Optional[float] = None
+    description: Optional[str] = None
+    image: Optional[str] = None
+    category: Optional[str] = None
+
+class DiscountApply(BaseModel):
+    discount_percent: float
 
 products_db = [
     {
@@ -190,4 +209,102 @@ async def create_order(order: OrderCreate):
         "message": "Заказ успешно оформлен",
         "order_id": order_id,
         "total": order.total
+    }
+
+# Endpoints для управления товарами (для техподдержки)
+
+@router.post("/products")
+async def create_product(product: ProductCreate):
+    """Создание нового товара (только для техподдержки)"""
+    new_id = max(p["id"] for p in products_db) + 1 if products_db else 1
+    
+    new_product = {
+        "id": new_id,
+        "name": product.name,
+        "price": product.price,
+        "old_price": None,
+        "description": product.description,
+        "image": product.image,
+        "category": product.category
+    }
+    
+    products_db.append(new_product)
+    
+    return {
+        "success": True,
+        "message": "Товар успешно создан",
+        "product": new_product
+    }
+
+@router.put("/products/{product_id}")
+async def update_product(product_id: int, product_update: ProductUpdate):
+    """Обновление товара (только для техподдержки)"""
+    product = next((p for p in products_db if p["id"] == product_id), None)
+    if not product:
+        raise HTTPException(status_code=404, detail="Товар не найден")
+    
+    update_data = product_update.dict(exclude_unset=True)
+    product.update(update_data)
+    
+    return {
+        "success": True,
+        "message": "Товар успешно обновлен",
+        "product": product
+    }
+
+@router.delete("/products/{product_id}")
+async def delete_product(product_id: int):
+    """Удаление товара (только для техподдержки)"""
+    global products_db
+    product = next((p for p in products_db if p["id"] == product_id), None)
+    if not product:
+        raise HTTPException(status_code=404, detail="Товар не найден")
+    
+    products_db = [p for p in products_db if p["id"] != product_id]
+    
+    return {
+        "success": True,
+        "message": "Товар успешно удален"
+    }
+
+@router.post("/products/{product_id}/discount")
+async def apply_discount(product_id: int, discount: DiscountApply):
+    """Применение скидки к товару (только для техподдержки)"""
+    product = next((p for p in products_db if p["id"] == product_id), None)
+    if not product:
+        raise HTTPException(status_code=404, detail="Товар не найден")
+    
+    if discount.discount_percent < 0 or discount.discount_percent > 100:
+        raise HTTPException(status_code=400, detail="Скидка должна быть от 0 до 100%")
+    
+    # Сохраняем старую цену, если ее еще нет
+    if product["old_price"] is None:
+        product["old_price"] = product["price"]
+    
+    # Вычисляем новую цену со скидкой
+    original_price = product["old_price"] if product["old_price"] else product["price"]
+    new_price = original_price * (1 - discount.discount_percent / 100)
+    product["price"] = round(new_price, 2)
+    
+    return {
+        "success": True,
+        "message": f"Скидка {discount.discount_percent}% применена",
+        "product": product
+    }
+
+@router.delete("/products/{product_id}/discount")
+async def remove_discount(product_id: int):
+    """Удаление скидки с товара (только для техподдержки)"""
+    product = next((p for p in products_db if p["id"] == product_id), None)
+    if not product:
+        raise HTTPException(status_code=404, detail="Товар не найден")
+    
+    if product["old_price"] is not None:
+        product["price"] = product["old_price"]
+        product["old_price"] = None
+    
+    return {
+        "success": True,
+        "message": "Скидка удалена",
+        "product": product
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -6,134 +6,10 @@
     <title>Профиль пользователя</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/icons.css">
-    <style>
-        .profile-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 20px;
-        }
-        
-        .profile-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .profile-avatar-wrapper {
-            position: relative;
-        }
-        
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            flex-shrink: 0;
-            overflow: hidden;
-            border: 4px solid rgba(255,255,255,0.3);
-        }
-        
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .avatar-upload-btn {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 36px;
-            height: 36px;
-            background: var(--primary-color);
-            border: 3px solid white;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: var(--transition);
-        }
-        
-        .avatar-upload-btn:hover {
-            background: #45a049;
-            transform: scale(1.1);
-        }
-        
-        .profile-info h2 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .profile-info p {
-            opacity: 0.9;
-        }
-        
-        .profile-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #e0e0e0;
-        }
-        
-        .profile-tab {
-            padding: 1rem 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            color: #666;
-            transition: var(--transition);
-        }
-        
-        .profile-tab.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            margin-bottom: -2px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
+    <link rel="stylesheet" href="/static/css/profile.css">
+</head>
+<body>
+    <nav class="navbar">
         
         textarea.form-control {
             resize: vertical;
@@ -170,6 +46,30 @@
             margin-bottom: 2rem;
         }
         
+        body.dark-mode .login-required h2 {
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .login-required p {
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .profile-data-value {
+            color: var(--text-color) !important;
+        }
+        
+        .profile-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         .btn-login {
             display: inline-block;
             background: var(--primary-color);
@@ -180,13 +80,6 @@
             transition: var(--transition);
         }
         
-        .btn-login:hover {
-            background: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <!-- Навигация -->
     <nav class="navbar">
         <div class="container">
             <a href="/" class="navbar-brand">Demo Components</a>
@@ -198,14 +91,12 @@
                 <li><a href="/shop">Магазин</a></li>
                 <li><a href="/media">Медиа</a></li>
                 <li><a href="/common">Общие</a></li>
-                <li><a href="/support-dashboard" id="supportNavLink" style="display: none; color: #4CAF50; font-weight: 600;">Поддержка</a></li>
+                <li><a href="/support-dashboard" id="supportNavLink">Поддержка</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Контейнер профиля -->
-    <div class="profile-container" id="profileContainer" style="display: none;">
-        <!-- Заголовок профиля -->
+    <div class="profile-container" id="profileContainer" class="d-none">
         <div class="profile-header">
             <div class="profile-avatar-wrapper">
                 <div class="profile-avatar" id="avatarDisplay">
@@ -217,7 +108,7 @@
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
                 </button>
-                <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="uploadAvatar()">
+                <input type="file" id="avatarInput" accept="image/*" class="d-none" onchange="uploadAvatar()">
             </div>
             <div class="profile-info">
                 <h2 id="profileUsername">Загрузка...</h2>
@@ -225,72 +116,72 @@
             </div>
         </div>
 
-        <!-- Вкладки -->
         <div class="profile-tabs">
             <button class="profile-tab active" onclick="switchTab('info')">Информация</button>
             <button class="profile-tab" onclick="switchTab('edit')">Редактировать</button>
         </div>
 
-        <!-- Контент вкладок -->
         <div class="card">
-            <!-- Вкладка информации -->
             <div id="info-tab" class="tab-content active">
-                <h3 style="margin-bottom: 1.5rem;">Личные данные</h3>
+                <h3 class="mb-1-5">Личные данные</h3>
                 
-                <div class="form-group">
-                    <div class="form-label">ФИО (Имя)</div>
-                    <div id="displayFullName" style="color: #666;">Не указано</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="form-label">Логин</div>
-                    <div id="displayUsername" style="color: #666;"></div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="form-label">Email</div>
-                    <div id="displayEmail" style="color: #666;"></div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="form-label">Телефон</div>
-                    <div id="displayPhone" style="color: #666;">Не указан</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="form-label">Адрес</div>
-                    <div id="displayAddress" style="color: #666;">Не указан</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="form-label">О себе</div>
-                    <div id="displayBio" style="color: #666;">Не указано</div>
+                <div class="profile-data-grid">
+                    <div class="form-group">
+                        <div class="form-label">ФИО (Имя)</div>
+                        <div id="displayFullName" class="profile-data-value" class="text-muted-gray">Не указано</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label">Логин</div>
+                        <div id="displayUsername" class="profile-data-value" class="text-muted-gray"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label">Email</div>
+                        <div id="displayEmail" class="profile-data-value" class="text-muted-gray"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label">Телефон</div>
+                        <div id="displayPhone" class="profile-data-value" class="text-muted-gray">Не указан</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label">Адрес</div>
+                        <div id="displayAddress" class="profile-data-value" class="text-muted-gray">Не указан</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label">О себе</div>
+                        <div id="displayBio" class="profile-data-value" class="text-muted-gray">Не указано</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Вкладка редактирования -->
             <div id="edit-tab" class="tab-content">
-                <h3 style="margin-bottom: 1.5rem;">Редактировать профиль</h3>
+                <h3 class="mb-1-5">Редактировать профиль</h3>
                 
                 <form id="profileForm" onsubmit="saveProfile(event)">
-                    <div class="form-group">
-                        <label class="form-label" for="fullName">ФИО (Имя)</label>
-                        <input type="text" id="fullName" class="form-control" placeholder="Иванов Иван Иванович">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="phone">Телефон</label>
-                        <input type="tel" id="phone" class="form-control" placeholder="+7 (999) 123-45-67">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="address">Адрес</label>
-                        <input type="text" id="address" class="form-control" placeholder="г. Москва, ул. Примерная, д. 1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="bio">О себе</label>
-                        <textarea id="bio" class="form-control" placeholder="Расскажите о себе..."></textarea>
+                    <div class="profile-data-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="fullName">ФИО (Имя)</label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Иванов Иван Иванович">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Телефон</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+7 (999) 123-45-67">
+                        </div>
+                        
+                        <div class="form-group" class="col-full">
+                            <label class="form-label" for="address">Адрес</label>
+                            <input type="text" id="address" class="form-control" placeholder="г. Москва, ул. Примерная, д. 1">
+                        </div>
+                        
+                        <div class="form-group" class="col-full">
+                            <label class="form-label" for="bio">О себе</label>
+                            <textarea id="bio" class="form-control" placeholder="Расскажите о себе..." class="textarea-min"></textarea>
+                        </div>
                     </div>
                     
                     <button type="submit" class="btn-save">Сохранить изменения</button>
@@ -299,11 +190,10 @@
         </div>
     </div>
 
-    <!-- Сообщение о необходимости авторизации -->
-    <div class="container" id="loginRequired" style="display: none;">
+    <div class="container" id="loginRequired" class="d-none">
         <div class="card login-required">
             <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline-md">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
@@ -314,7 +204,6 @@
         </div>
     </div>
 
-    <!-- Кнопка смены темы -->
     <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
         <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -324,10 +213,7 @@
     <script src="/static/js/main.js?v=4"></script>
     <script>
         let currentProfile = null;
-
-        // Проверка авторизации при загрузке
         document.addEventListener('DOMContentLoaded', async () => {
-            // Проверка токена из URL (для OAuth callback)
             const urlParams = new URLSearchParams(window.location.search);
             const tokenFromUrl = urlParams.get('token');
             if (tokenFromUrl) {
@@ -375,16 +261,11 @@
         }
 
         function displayProfile(profile) {
-            // Заголовок
             document.getElementById('profileUsername').textContent = profile.username;
             document.getElementById('profileEmail').textContent = profile.email;
-            
-            // Показать ссылку поддержки в навигации для пользователя support
             if (profile.username === 'support') {
                 document.getElementById('supportNavLink').style.display = 'block';
             }
-            
-            // Аватар
             const avatarDisplay = document.getElementById('avatarDisplay');
             if (profile.avatar_url) {
                 console.log('Avatar URL from API:', profile.avatar_url);
@@ -393,16 +274,12 @@
                 const initials = profile.username.substring(0, 2).toUpperCase();
                 avatarDisplay.innerHTML = `<span id="avatarInitials">${initials}</span>`;
             }
-            
-            // Информация
             document.getElementById('displayFullName').textContent = profile.full_name || 'Не указано';
             document.getElementById('displayUsername').textContent = profile.username;
             document.getElementById('displayEmail').textContent = profile.email;
             document.getElementById('displayPhone').textContent = profile.phone || 'Не указан';
             document.getElementById('displayAddress').textContent = profile.address || 'Не указан';
             document.getElementById('displayBio').textContent = profile.bio || 'Не указано';
-            
-            // Форма редактирования
             document.getElementById('fullName').value = profile.full_name || '';
             document.getElementById('phone').value = profile.phone || '';
             document.getElementById('address').value = profile.address || '';
@@ -410,7 +287,6 @@
         }
 
         function switchTab(tab) {
-            // Переключение вкладок
             document.querySelectorAll('.profile-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
@@ -458,8 +334,6 @@
             const file = fileInput.files[0];
             
             if (!file) return;
-            
-            // Проверка размера
             if (file.size > 5 * 1024 * 1024) {
                 showNotification('Файл слишком большой. Максимум 5MB', 'error');
                 return;
@@ -504,3 +378,4 @@
     </script>
 </body>
 </html>
+

@@ -1,0 +1,40 @@
+﻿
+-        .auth-container {
+-            max-width: 500px;
+-            background: var(--bg-color);
+-            color: #f44336;
+-        }
+-        .password-requirements li.invalid::before {
+-            color: #f44336;
+-        }
+-        .loading {
+-            display: inline-block;
+-            width: 1rem;
+-            height: 1rem;
+-            border: 2px solid #f3f3f3;
+-            border-top: 2px solid var(--primary-color);
+-            border-radius: 50%;
+-            animation: spin 1s linear infinite;
+-        }
+-        @keyframes spin {
+-            0% { transform: rotate(0deg); }
+-            100% { transform: rotate(360deg); }
+-        }
+-                <li><a href="/support-dashboard" id="supportNavLink" style="display: none; color: #4CAF50; font-weight: 600;">╨Я╨╛╨┤╨┤
+╨╡╤А╨╢╨║╨░</a></li>
+-                    <label for="rememberMe" style="margin: 0;">╨Ч╨░╨┐╨╛╨╝╨╜╨╕╤В╤М ╨╝╨╡╨╜╤П</label>
+-                <button type="submit" class="btn btn-primary" style="width: 100%;">
+-                        <small style="color: #666;">╨Ь╨╕╨╜╨╕╨╝╤Г╨╝ 3 ╤Б╨╕╨╝╨▓╨╛╨╗╨░, ╤В╨╛╨╗╤М╨║╨╛ ╨▒╤Г╨║╨▓╤Л, ╤Ж╨╕╤Д╤А╤Л, ╨┤╨╡╤Д╨╕╤Б ╨
+╕ _</small>
+-                        <label for="agreeTerms" style="margin: 0;">╨п ╤Б╨╛╨│╨╗╨░╤Б╨╡╨╜ ╤Б <a href="/terms" target="_blank" style="colo
+r: var(--primary-color); text-decoration: none;">╤Г╤Б╨╗╨╛╨▓╨╕╤П╨╝╨╕ ╨╕╤Б╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╨╜╨╕╤П</a></label>
+-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+-                    <h3 style="text-align: center; margin-bottom: 1rem;">╨Я╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜╨╕╨╡ Email</h3>
+-                    <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+-                        <small style="color: #666;">╨Ъ╨╛╨┤ ╨┤╨╡╨╣╤Б╤В╨▓╨╕╤В╨╡╨╗╨╡╨╜ 10 ╨╝╨╕╨╜╤Г╤В</small>
+-                    <button type="button" class="btn btn-primary" style="width: 100%;" onclick="verifyCode()">
+-                    <div style="text-align: center; margin-top: 1rem;">
+-                        <button type="button" class="btn" onclick="resendCode()" style="background: none; color: var(--primary-color);
+">
+
+

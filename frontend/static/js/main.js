@@ -94,7 +94,6 @@ function validateForm(formId) {
     return isValid;
 }
 
-// Задержка для оптимизации поиска в реальном времени
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -107,7 +106,6 @@ function debounce(func, wait) {
     };
 }
 
-// Плавное появление элементов при прокрутке страницы
 function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -142,9 +140,7 @@ function updateThemeIcon() {
     
     const isDark = document.body.classList.contains('dark-mode');
     
-    // Создаем SVG иконку в зависимости от темы
     if (isDark) {
-        // Солнце для светлой темы (когда сейчас темная)
         button.innerHTML = `
             <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -159,7 +155,6 @@ function updateThemeIcon() {
             </svg>
         `;
     } else {
-        // Луна для темной темы (когда сейчас светлая)
         button.innerHTML = `
             <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -204,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
     
-    // Показываем ссылку на панель поддержки только для support-аккаунта
     const token = localStorage.getItem('token');
     if (token) {
         fetch('/api/profile/me', {

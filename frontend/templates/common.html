@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -6,99 +6,7 @@
     <title>Общие компоненты</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/icons.css">
-    <style>
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 0;
-            font-size: 0.9rem;
-        }
-        
-        .breadcrumb a {
-            color: var(--secondary-color);
-            text-decoration: none;
-        }
-        
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-        
-        .breadcrumb-separator {
-            color: #999;
-        }
-        
-        .footer {
-            background: var(--dark-color);
-            color: white;
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer-section a:hover {
-            color: var(--primary-color);
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid #555;
-            padding-top: 1rem;
-            text-align: center;
-            color: #999;
-        }
-        
-        .demo-nav {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .demo-nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .demo-nav a {
-            color: var(--dark-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        .demo-nav a:hover {
-            color: var(--primary-color);
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/common.css">
 </head>
 <body>
     <nav class="navbar">
@@ -112,44 +20,44 @@
                 <li><a href="/shop">Магазин</a></li>
                 <li><a href="/media">Медиа</a></li>
                 <li><a href="/common">Общие</a></li>
-                <li><a href="/support-dashboard" id="supportNavLink" style="display: none; color: #4CAF50; font-weight: 600;">Поддержка</a></li>
+                <li><a href="/support-dashboard" id="supportNavLink">Поддержка</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
         <h1 class="text-center mb-4">Общие компоненты</h1>
-        <p class="text-center" style="color: #666; margin-bottom: 3rem;">
+        <p class="text-center" class="text-muted-gray mb-3">
             Универсальные элементы для любого проекта
         </p>
 
         <section class="demo-section">
             <h2 class="demo-title">Переключение темы (светлая/темная)</h2>
-            <div class="card" style="padding: 2rem;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <div class="card" class="p-2">
+                <div class="flex-between mb-1-5">
                     <div>
-                        <h3 style="margin: 0 0 0.5rem 0;">Тема оформления</h3>
-                        <p style="margin: 0; color: #666;">Выберите предпочитаемую тему интерфейса</p>
+                        <h3 class="m-bottom-half">Тема оформления</h3>
+                        <p class="m-0 text-muted-gray">Выберите предпочитаемую тему интерфейса</p>
                     </div>
                     <button class="btn btn-primary" onclick="toggleThemeDemo()" id="themeToggleBtn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                         </svg>
                         Темная тема
                     </button>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    <div class="theme-preview" onclick="applyTheme('light')" style="cursor: pointer; padding: 1rem; border-radius: var(--border-radius); border: 2px solid #ddd; transition: var(--transition);">
-                        <div style="height: 100px; background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); border-radius: 8px; margin-bottom: 0.5rem;"></div>
-                        <div style="text-align: center; font-weight: 600;">Светлая</div>
+                <div class="grid-auto-200">
+                    <div class="theme-preview" onclick="applyTheme('light')" class="theme-card-clickable">
+                        <div class="theme-preview-light"></div>
+                        <div class="text-center fw-600">Светлая</div>
                     </div>
-                    <div class="theme-preview" onclick="applyTheme('dark')" style="cursor: pointer; padding: 1rem; border-radius: var(--border-radius); border: 2px solid #ddd; transition: var(--transition);">
-                        <div style="height: 100px; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); border-radius: 8px; margin-bottom: 0.5rem;"></div>
-                        <div style="text-align: center; font-weight: 600;">Темная</div>
+                    <div class="theme-preview" onclick="applyTheme('dark')" class="theme-card-clickable">
+                        <div class="theme-preview-dark"></div>
+                        <div class="text-center fw-600">Темная</div>
                     </div>
-                    <div class="theme-preview" onclick="applyTheme('auto')" style="cursor: pointer; padding: 1rem; border-radius: var(--border-radius); border: 2px solid #ddd; transition: var(--transition);">
-                        <div style="height: 100px; background: linear-gradient(135deg, #ffffff 0%, #ffffff 50%, #2c3e50 50%, #34495e 100%); border-radius: 8px; margin-bottom: 0.5rem;"></div>
-                        <div style="text-align: center; font-weight: 600;">Авто</div>
+                    <div class="theme-preview" onclick="applyTheme('auto')" class="theme-card-clickable">
+                        <div class="theme-preview-auto"></div>
+                        <div class="text-center fw-600">Авто</div>
                     </div>
                 </div>
             </div>
@@ -157,54 +65,54 @@
 
         <section class="demo-section">
             <h2 class="demo-title">Генераторы отчетов Excel/PDF</h2>
-            <div class="card" style="padding: 2rem;">
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="margin-bottom: 1rem;">Демонстрационные данные</h3>
-                    <table id="reportData" style="width: 100%; border-collapse: collapse;">
+            <div class="card" class="p-2">
+                <div class="report-section">
+                    <h3 class="mb-1">Демонстрационные данные</h3>
+                    <table id="reportData" class="table-full">
                         <thead>
-                            <tr style="background: #f5f5f5;">
-                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #ddd;">ID</th>
-                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #ddd;">Название</th>
-                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #ddd;">Категория</th>
-                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #ddd;">Цена</th>
-                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #ddd;">Статус</th>
+                            <tr class="bg-light">
+                                <th class="table-header">ID</th>
+                                <th class="table-header">Название</th>
+                                <th class="table-header">Категория</th>
+                                <th class="table-header">Цена</th>
+                                <th class="table-header">Статус</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">1</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Смартфон XYZ</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Электроника</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">25 000 ₽</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;"><span style="background: #4CAF50; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">В наличии</span></td>
+                                <td class="table-cell">1</td>
+                                <td class="table-cell">Смартфон XYZ</td>
+                                <td class="table-cell">Электроника</td>
+                                <td class="table-cell">25 000 ₽</td>
+                                <td class="table-cell"><span class="badge-success">В наличии</span></td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">2</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Ноутбук ABC</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Компьютеры</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">65 000 ₽</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;"><span style="background: #4CAF50; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">В наличии</span></td>
+                                <td class="table-cell">2</td>
+                                <td class="table-cell">Ноутбук ABC</td>
+                                <td class="table-cell">Компьютеры</td>
+                                <td class="table-cell">65 000 ₽</td>
+                                <td class="table-cell"><span class="badge-success">В наличии</span></td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">3</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Наушники Pro</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Аксессуары</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">8 500 ₽</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;"><span style="background: #ff9800; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">Заканчивается</span></td>
+                                <td class="table-cell">3</td>
+                                <td class="table-cell">Наушники Pro</td>
+                                <td class="table-cell">Аксессуары</td>
+                                <td class="table-cell">8 500 ₽</td>
+                                <td class="table-cell"><span class="badge-warning">Заканчивается</span></td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">4</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Смарт-часы</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Аксессуары</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">12 000 ₽</td>
-                                <td style="padding: 0.75rem; border-bottom: 1px solid #eee;"><span style="background: #f44336; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">Нет в наличии</span></td>
+                                <td class="table-cell">4</td>
+                                <td class="table-cell">Смарт-часы</td>
+                                <td class="table-cell">Аксессуары</td>
+                                <td class="table-cell">12 000 ₽</td>
+                                <td class="table-cell"><span class="badge-danger">Нет в наличии</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <div class="flex-gap-wrap">
                     <button class="btn btn-primary" onclick="generateExcel()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -214,7 +122,7 @@
                         Экспорт в Excel
                     </button>
                     <button class="btn btn-secondary" onclick="generatePDF()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -222,8 +130,8 @@
                         </svg>
                         Экспорт в PDF
                     </button>
-                    <button class="btn" style="background: #2196F3; color: white;" onclick="generateCSV()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                    <button class="btn" class="btn-blue" onclick="generateCSV()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                         </svg>
@@ -233,7 +141,6 @@
             </div>
         </section>
 
-        <!-- Навигация -->
         <section class="demo-section">
             <h2 class="demo-title"><span class="icon icon-nav icon-md"></span> Навигация</h2>
             <div class="card">
@@ -248,13 +155,12 @@
                         </ul>
                     </div>
                 </div>
-                <p style="padding: 1rem; color: #666;">
+                <p class="p-1 text-muted-gray">
                     Горизонтальная навигация с возможностью добавления подменю и выпадающих списков
                 </p>
             </div>
         </section>
 
-        <!-- Навигационная цепочка -->
         <section class="demo-section">
             <h2 class="demo-title"><span class="icon icon-breadcrumb icon-md"></span> Навигационная цепочка</h2>
             <div class="card">
@@ -266,21 +172,20 @@
                     <span>Общие компоненты</span>
                 </nav>
             </div>
-            <p style="color: #666; margin-top: 1rem;">
+            <p class="text-muted-gray mt-1">
                 Навигационная цепочка для отображения текущего местоположения пользователя
             </p>
         </section>
 
-        <!-- Футер -->
         <section class="demo-section">
             <h2 class="demo-title"><span class="icon icon-footer icon-md"></span> Футер</h2>
-            <div class="card" style="padding: 0; overflow: hidden;">
-                <footer class="footer" style="margin: 0;">
+            <div class="card" class="p-0 overflow-hidden">
+                <footer class="footer" class="m-0">
                     <div class="container">
                         <div class="footer-content">
                             <div class="footer-section">
                                 <h3>О компании</h3>
-                                <p style="color: #ccc;">
+                                <p class="text-light-gray">
                                     Мы создаем современные веб-решения для вашего бизнеса с использованием передовых технологий.
                                 </p>
                             </div>
@@ -308,9 +213,9 @@
                             <div class="footer-section">
                                 <h3>Контакты</h3>
                                 <ul>
-                                    <li style="color: #ccc;">Email: info@example.com</li>
-                                    <li style="color: #ccc;">Телефон: +7 (999) 123-45-67</li>
-                                    <li style="color: #ccc;">Адрес: г. Москва</li>
+                                    <li class="text-light-gray">Email: info@example.com</li>
+                                    <li class="text-light-gray">Телефон: +7 (999) 123-45-67</li>
+                                    <li class="text-light-gray">Адрес: г. Москва</li>
                                 </ul>
                             </div>
                         </div>
@@ -321,54 +226,53 @@
                     </div>
                 </footer>
             </div>
-            <p style="color: #666; margin-top: 1rem;">
+            <p class="text-muted-gray mt-1">
                 Полнофункциональный футер с колонками, ссылками и контактной информацией
             </p>
         </section>
 
-        <!-- Дополнительные элементы -->
         <section class="demo-section">
             <h2 class="demo-title">Дополнительные элементы</h2>
-            <div class="components-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            <div class="components-grid" class="grid-auto-250">
                 <div class="card">
-                    <h3 style="margin-bottom: 1rem;">Боковое меню</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 0.75rem; border-bottom: 1px solid #e0e0e0;">
-                            <a href="#" style="color: var(--dark-color); text-decoration: none;">Пункт меню 1</a>
+                    <h3 class="mb-1">Боковое меню</h3>
+                    <ul class="list-none">
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">Пункт меню 1</a>
                         </li>
-                        <li style="padding: 0.75rem; border-bottom: 1px solid #e0e0e0; background: var(--light-color);">
-                            <a href="#" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Активный пункт</a>
+                        <li class="menu-item-active">
+                            <a href="#" class="menu-link-active">Активный пункт</a>
                         </li>
-                        <li style="padding: 0.75rem; border-bottom: 1px solid #e0e0e0;">
-                            <a href="#" style="color: var(--dark-color); text-decoration: none;">Пункт меню 3</a>
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">Пункт меню 3</a>
                         </li>
-                        <li style="padding: 0.75rem;">
-                            <a href="#" style="color: var(--dark-color); text-decoration: none;">Пункт меню 4</a>
+                        <li class="p-075">
+                            <a href="#" class="menu-link">Пункт меню 4</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="card">
-                    <h3 style="margin-bottom: 1rem;">Вкладки</h3>
-                    <div style="display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 1rem;">
-                        <button style="flex: 1; padding: 0.75rem; background: none; border: none; border-bottom: 2px solid var(--primary-color); margin-bottom: -2px; cursor: pointer; font-weight: 600; color: var(--primary-color);">
+                    <h3 class="mb-1">Вкладки</h3>
+                    <div class="tabs-container">
+                        <button class="tab-active">
                             Вкладка 1
                         </button>
-                        <button style="flex: 1; padding: 0.75rem; background: none; border: none; cursor: pointer; color: #666;">
+                        <button class="tab-inactive">
                             Вкладка 2
                         </button>
-                        <button style="flex: 1; padding: 0.75rem; background: none; border: none; cursor: pointer; color: #666;">
+                        <button class="tab-inactive">
                             Вкладка 3
                         </button>
                     </div>
-                    <p style="color: #666;">Содержимое активной вкладки отображается здесь</p>
+                    <p class="text-gray">Содержимое активной вкладки отображается здесь</p>
                 </div>
 
                 <div class="card">
-                    <h3 style="margin-bottom: 1rem;">Поиск</h3>
-                    <div style="position: relative;">
-                        <input type="text" class="form-control" placeholder="Поиск..." style="padding-right: 3rem;">
-                        <button style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                    <h3 class="mb-1">Поиск</h3>
+                    <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Поиск..." class="pr-3">
+                        <button class="search-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <path d="m21 21-4.35-4.35"></path>
@@ -380,7 +284,6 @@
         </section>
     </div>
 
-    <!-- Кнопка переключения темы -->
     <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
         <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -396,7 +299,7 @@
             const btn = document.getElementById('themeToggleBtn');
             if (isDark) {
                 btn.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
                         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -411,7 +314,7 @@
                 `;
             } else {
                 btn.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                     Темная тема
@@ -508,3 +411,11 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+

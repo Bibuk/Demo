@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -6,292 +6,7 @@
     <title>Контент и медиа компоненты</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/icons.css">
-    <style>
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .gallery-item {
-            height: 200px;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-            transition: var(--transition);
-            background: #f5f5f5;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
-        .gallery-item:hover > div {
-            opacity: 1 !important;
-        }
-        
-        .slider-container {
-            position: relative;
-            max-width: 800px;
-            margin: 2rem auto;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .slider-wrapper {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        
-        .slide {
-            min-width: 100%;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-        }
-        
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.9);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: var(--transition);
-            z-index: 10;
-        }
-        
-        .slider-btn:hover {
-            background: white;
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .slider-btn-prev { left: 1rem; }
-        .slider-btn-next { right: 1rem; }
-        
-        .slider-dots {
-            position: absolute;
-            bottom: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .slider-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .slider-dot.active {
-            background: white;
-            width: 30px;
-            border-radius: 6px;
-        }
-        
-        .video-player {
-            position: relative;
-            max-width: 800px;
-            margin: 2rem auto;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            background: #000;
-        }
-        
-        .video-placeholder {
-            width: 100%;
-            height: 450px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            font-size: 5rem;
-            cursor: pointer;
-        }
-        
-        .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .video-progress {
-            flex: 1;
-            height: 5px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        
-        .video-progress-bar {
-            height: 100%;
-            background: var(--primary-color);
-            border-radius: 3px;
-            width: 30%;
-        }
-        
-        input[type="range"]#audioSeekSlider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) 0%, #e0e0e0 0%, #e0e0e0 100%);
-            outline: none;
-        }
-        
-        input[type="range"]#audioSeekSlider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        input[type="range"]#audioSeekSlider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .custom-audio-player {
-            width: 100%;
-            height: 60px;
-            outline: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
-            transition: all 0.3s ease;
-        }
-        
-        .custom-audio-player:hover {
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
-            transform: translateY(-2px);
-        }
-        
-        .custom-audio-player::-webkit-media-controls-panel {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.95) 0%, rgba(69, 160, 73, 0.95) 100%);
-            border-radius: 12px;
-        }
-        
-        .custom-audio-player::-webkit-media-controls-play-button,
-        .custom-audio-player::-webkit-media-controls-mute-button {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            filter: invert(1);
-        }
-        
-        .custom-audio-player::-webkit-media-controls-play-button:hover,
-        .custom-audio-player::-webkit-media-controls-mute-button:hover {
-            background-color: rgba(255, 255, 255, 1);
-            transform: scale(1.1);
-        }
-        
-        .custom-audio-player::-webkit-media-controls-timeline {
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .custom-audio-player::-webkit-media-controls-current-time-display,
-        .custom-audio-player::-webkit-media-controls-time-remaining-display {
-            color: white;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            font-weight: 500;
-        }
-        
-        .custom-audio-player::-webkit-media-controls-volume-slider {
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .upload-area {
-            border: 2px dashed #ddd;
-            border-radius: var(--border-radius);
-            padding: 3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            margin: 2rem 0;
-        }
-        
-        .upload-area:hover {
-            border-color: var(--primary-color);
-            background: var(--light-color);
-        }
-        
-        .upload-area.dragover {
-            border-color: var(--primary-color);
-            background: rgba(76, 175, 80, 0.1);
-        }
-        
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .lightbox.active {
-            display: flex;
-        }
-        
-        .lightbox-image {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: var(--border-radius);
-        }
-        
-        .lightbox-close {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            color: white;
-            font-size: 3rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/media.css">
 </head>
 <body>
     <nav class="navbar">
@@ -305,7 +20,7 @@
                 <li><a href="/shop">Магазин</a></li>
                 <li><a href="/media">Медиа</a></li>
                 <li><a href="/common">Общие</a></li>
-                <li><a href="/support-dashboard" id="supportNavLink" style="display: none; color: #4CAF50; font-weight: 600;">Поддержка</a></li>
+                <li><a href="/support-dashboard" id="supportNavLink">Поддержка</a></li>
             </ul>
         </div>
     </nav>
@@ -315,85 +30,84 @@
 
         <section class="demo-section">
             <h2 class="demo-title">Галерея изображений</h2>
-            <div style="display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center;">
-                <input type="text" id="gallerySearch" placeholder="Поиск по названию..." style="flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: var(--border-radius);" oninput="filterGallery()">
-                <select id="galleryFilter" style="padding: 0.75rem; border: 1px solid #ddd; border-radius: var(--border-radius);" onchange="filterGallery()">
+            <div class="flex-gap mb-1 align-center">
+                <input type="text" id="gallerySearch" placeholder="Поиск по названию..." class="input-search" oninput="filterGallery()">
+                <select id="galleryFilter" class="select-filter" onchange="filterGallery()">
                     <option value="all">Все категории</option>
                     <option value="nature">Природа</option>
                     <option value="architecture">Архитектура</option>
                     <option value="people">Люди</option>
                 </select>
                 <button class="btn btn-primary" onclick="document.getElementById('galleryUpload').click()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="vertical-align: middle;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="svg-inline">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="17 8 12 3 7 8"></polyline>
                         <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
                     Добавить фото
                 </button>
-                <input type="file" id="galleryUpload" accept="image/*" style="display: none;" onchange="addGalleryImage(event)">
+                <input type="file" id="galleryUpload" accept="image/*" class="file-input-hidden" onchange="addGalleryImage(event)">
             </div>
             <div class="gallery-grid" id="galleryGrid">
                 <div class="gallery-item" data-category="nature" data-name="Закат в горах" onclick="openLightbox(0)">
                     <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=400" alt="Закат в горах">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                        <div style="font-weight: 600;">Закат в горах</div>
-                        <div style="font-size: 0.9rem;">Природа</div>
+                    <div class="gallery-overlay">
+                        <div class="overlay-title">Закат в горах</div>
+                        <div class="fs-09">Природа</div>
                     </div>
                 </div>
                 <div class="gallery-item" data-category="architecture" data-name="Современное здание" onclick="openLightbox(1)">
                     <img src="https://images.unsplash.com/photo-1682687221038-404cb8830901?w=400" alt="Современное здание">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                        <div style="font-weight: 600;">Современное здание</div>
-                        <div style="font-size: 0.9rem;">Архитектура</div>
+                    <div class="gallery-overlay">
+                        <div class="overlay-title">Современное здание</div>
+                        <div class="fs-09">Архитектура</div>
                     </div>
                 </div>
                 <div class="gallery-item" data-category="people" data-name="Портрет" onclick="openLightbox(2)">
                     <img src="https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=400" alt="Портрет">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                        <div style="font-weight: 600;">Портрет</div>
-                        <div style="font-size: 0.9rem;">Люди</div>
+                    <div class="gallery-overlay">
+                        <div class="overlay-title">Портрет</div>
+                        <div class="fs-09">Люди</div>
                     </div>
                 </div>
                 <div class="gallery-item" data-category="nature" data-name="Лесной пейзаж" onclick="openLightbox(3)">
                     <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400" alt="Лесной пейзаж">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                        <div style="font-weight: 600;">Лесной пейзаж</div>
-                        <div style="font-size: 0.9rem;">Природа</div>
+                    <div class="gallery-overlay">
+                        <div class="overlay-title">Лесной пейзаж</div>
+                        <div class="fs-09">Природа</div>
                     </div>
                 </div>
                 <div class="gallery-item" data-category="architecture" data-name="Городская улица" onclick="openLightbox(4)">
                     <img src="https://images.unsplash.com/photo-1682687221080-5cb261c645cb?w=400" alt="Городская улица">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                        <div style="font-weight: 600;">Городская улица</div>
-                        <div style="font-size: 0.9rem;">Архитектура</div>
+                    <div class="gallery-overlay">
+                        <div class="overlay-title">Городская улица</div>
+                        <div class="fs-09">Архитектура</div>
                     </div>
                 </div>
                 <div class="gallery-item" data-category="nature" data-name="Океан" onclick="openLightbox(5)">
                     <img src="https://images.unsplash.com/photo-1682687220199-d0124f48f95b?w=400" alt="Океан">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                        <div style="font-weight: 600;">Океан</div>
-                        <div style="font-size: 0.9rem;">Природа</div>
+                    <div class="gallery-overlay">
+                        <div class="overlay-title">Океан</div>
+                        <div class="fs-09">Природа</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Слайдер -->
         <section class="demo-section">
             <h2 class="demo-title">Слайдер контента</h2>
             <div class="slider-container">
                 <div class="slider-wrapper" id="sliderWrapper">
-                    <div class="slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="slide" class="gradient-purple">
                         Слайд 1
                     </div>
-                    <div class="slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="slide" class="gradient-pink">
                         Слайд 2
                     </div>
-                    <div class="slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="slide" class="gradient-blue">
                         Слайд 3
                     </div>
-                    <div class="slide" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="slide" class="gradient-green">
                         Слайд 4
                     </div>
                 </div>
@@ -406,11 +120,11 @@
         <section class="demo-section">
             <h2 class="demo-title">Видео плеер</h2>
             <div class="video-player">
-                <video id="videoPlayer" style="width: 100%; border-radius: var(--border-radius);">
+                <video id="videoPlayer" class="video-player">
                     <source src="/static/media/videos/demo.mp4" type="video/mp4">
                 </video>
                 <div class="video-controls">
-                    <button id="playPauseBtn" onclick="togglePlayPause()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">
+                    <button id="playPauseBtn" onclick="togglePlayPause()" class="video-btn">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                             <path d="M8 5v14l11-7z"/>
                         </svg>
@@ -418,13 +132,13 @@
                     <div class="video-progress" onclick="seekVideo(event)">
                         <div class="video-progress-bar" id="videoProgressBar"></div>
                     </div>
-                    <span id="videoTime" style="color: white; font-size: 0.9rem;">0:00 / 0:00</span>
-                    <button onclick="toggleMute()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">
+                    <span id="videoTime" class="video-time">0:00 / 0:00</span>
+                    <button onclick="toggleMute()" class="video-btn">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
                         </svg>
                     </button>
-                    <button onclick="toggleFullscreen()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">
+                    <button onclick="toggleFullscreen()" class="video-btn">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                             <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
                         </svg>
@@ -435,18 +149,18 @@
 
         <section class="demo-section">
             <h2 class="demo-title">Аудио плеер</h2>
-            <div class="card" style="padding: 2rem;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #4caf50 0%, #45a049 100%); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: white;">
+            <div class="card" class="audio-card">
+                <div class="audio-info">
+                    <div class="audio-cover">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 18V5l12-2v13"></path>
                             <circle cx="6" cy="18" r="3"></circle>
                             <circle cx="18" cy="16" r="3"></circle>
                         </svg>
                     </div>
-                    <div style="flex: 1;">
-                        <h3 style="margin: 0 0 0.5rem 0;">Demo Track</h3>
-                        <p style="margin: 0; color: #666;">Unknown Artist</p>
+                    <div class="audio-details">
+                        <h3 class="audio-title">Demo Track</h3>
+                        <p class="audio-artist">Unknown Artist</p>
                     </div>
                 </div>
                 <audio controls preload="metadata" class="custom-audio-player">
@@ -460,72 +174,72 @@
         <section class="demo-section">
             <h2 class="demo-title">Управление файлами</h2>
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
-                    <h3 style="margin: 0;">Мои файлы</h3>
+                <div class="file-section-header">
+                    <h3 class="file-section-title">Мои файлы</h3>
                     <button class="btn btn-primary btn-sm" onclick="document.getElementById('fileInput').click()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="vertical-align: middle; margin-right: 0.25rem;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="icon-inline-sm">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17 8 12 3 7 8"></polyline>
                             <line x1="12" y1="3" x2="12" y2="15"></line>
                         </svg>
                         Загрузить файл
                     </button>
-                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileUpload(event)">
+                    <input type="file" id="fileInput" class="file-input-hidden" onchange="handleFileUpload(event)">
                 </div>
                 <div id="fileList">
-                    <div class="file-item" style="display: flex; align-items: center; padding: 0.75rem; border-bottom: 1px solid #e0e0e0; transition: background 0.3s;">
-                        <div style="width: 40px; height: 40px; background: #e3f2fd; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                    <div class="file-item" class="file-item">
+                        <div class="file-icon file-icon-pdf">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="2">
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                 <polyline points="13 2 13 9 20 9"></polyline>
                             </svg>
                         </div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600;">Документ.pdf</div>
-                            <div style="font-size: 0.9rem; color: #666;">2.5 MB • 15 мин назад</div>
+                        <div class="audio-details">
+                            <div class="overlay-title">Документ.pdf</div>
+                            <div class="file-meta">2.5 MB • 15 мин назад</div>
                         </div>
-                        <a href="/static/uploads/documents/Документ.pdf" download="Документ.pdf" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #666; display: inline-flex;">
+                        <a href="/static/uploads/documents/Документ.pdf" download="Документ.pdf" class="file-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
                         </a>
-                        <button onclick="deleteFile(this)" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #e74c3c;">
+                        <button onclick="deleteFile(this)" class="file-btn-delete">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                             </svg>
                         </button>
                     </div>
-                    <div class="file-item" style="display: flex; align-items: center; padding: 0.75rem; border-bottom: 1px solid #e0e0e0;">
-                        <div style="width: 40px; height: 40px; background: #f3e5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                    <div class="file-item" class="file-item">
+                        <div class="file-icon file-icon-image">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9c27b0" stroke-width="2">
                                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                                 <circle cx="8.5" cy="8.5" r="1.5"></circle>
                                 <polyline points="21 15 16 10 5 21"></polyline>
                             </svg>
                         </div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600;">Изображение.jpg</div>
-                            <div style="font-size: 0.9rem; color: #666;">1.8 MB • 1 час назад</div>
+                        <div class="audio-details">
+                            <div class="overlay-title">Изображение.jpg</div>
+                            <div class="file-meta">1.8 MB • 1 час назад</div>
                         </div>
-                        <a href="/static/uploads/images/Изображение.jpg" download="Изображение.jpg" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #666; display: inline-flex;">
+                        <a href="/static/uploads/images/Изображение.jpg" download="Изображение.jpg" class="file-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
                         </a>
-                        <button onclick="deleteFile(this)" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #e74c3c;">
+                        <button onclick="deleteFile(this)" class="file-btn-delete">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                             </svg>
                         </button>
                     </div>
-                    <div class="file-item" style="display: flex; align-items: center; padding: 0.75rem;">
-                        <div style="width: 40px; height: 40px; background: #e8f5e9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                    <div class="file-item" class="file-item">
+                        <div class="file-icon file-icon-doc">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -534,18 +248,18 @@
                                 <polyline points="10 9 9 9 8 9"></polyline>
                             </svg>
                         </div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600;">Презентация.pptx</div>
-                            <div style="font-size: 0.9rem; color: #666;">5.2 MB • 2 часа назад</div>
+                        <div class="audio-details">
+                            <div class="overlay-title">Презентация.pptx</div>
+                            <div class="file-meta">5.2 MB • 2 часа назад</div>
                         </div>
-                        <a href="/static/uploads/documents/Презентация.pptx" download="Презентация.pptx" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #666; display: inline-flex;">
+                        <a href="/static/uploads/documents/Презентация.pptx" download="Презентация.pptx" class="file-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                        </button>
-                        <button onclick="deleteFile(this)" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #e74c3c;">
+                        </a>
+                        <button onclick="deleteFile(this)" class="file-btn-delete">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -556,48 +270,46 @@
             </div>
         </section>
 
-        <!-- Загрузка файлов -->
         <section class="demo-section">
             <h2 class="demo-title">Загрузка файлов</h2>
             <div class="card">
-                <input type="file" id="uploadAreaInput" style="display: none;" onchange="handleFileUpload(event)">
+                <input type="file" id="uploadAreaInput" class="file-input-hidden" onchange="handleFileUpload(event)">
                 <div class="upload-area" id="uploadArea" onclick="document.getElementById('uploadAreaInput').click()">
-                    <div style="margin-bottom: 1rem;"><span class="icon icon-upload icon-xl"></span></div>
+                    <div class="mb-1"><span class="icon icon-upload icon-xl"></span></div>
                     <h3>Перетащите файлы сюда</h3>
-                    <p style="color: #666; margin: 1rem 0;">или</p>
+                    <p class="text-muted-gray my-1">или</p>
                     <button class="btn btn-primary" type="button">Выбрать файлы</button>
-                    <p style="color: #999; margin-top: 1rem; font-size: 0.9rem;">
+                    <p class="upload-hint">
                         Поддерживаемые форматы: Изображения, Видео, Аудио, Документы, Архивы (макс. 50MB)
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Аккордеон -->
         <section class="demo-section">
             <h2 class="demo-title">Аккордеон (FAQ)</h2>
             <div class="card">
                 <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(0)" style="cursor: pointer; padding: 1rem; border-bottom: 1px solid #e0e0e0; font-weight: 600;">
+                    <div class="accordion-header" onclick="toggleAccordion(0)" class="accordion-header-clickable">
                         <span>Как начать работу? ▼</span>
                     </div>
-                    <div class="accordion-content" style="display: none; padding: 1rem; color: #666;">
+                    <div class="accordion-content" class="accordion-content-hidden">
                         Для начала работы зарегистрируйтесь на сайте, заполните профиль и следуйте инструкциям.
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(1)" style="cursor: pointer; padding: 1rem; border-bottom: 1px solid #e0e0e0; font-weight: 600;">
+                    <div class="accordion-header" onclick="toggleAccordion(1)" class="accordion-header-clickable">
                         <span>Какие способы оплаты доступны? ▼</span>
                     </div>
-                    <div class="accordion-content" style="display: none; padding: 1rem; color: #666;">
+                    <div class="accordion-content" class="accordion-content-hidden">
                         Мы принимаем банковские карты, электронные кошельки и банковские переводы.
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(2)" style="cursor: pointer; padding: 1rem; font-weight: 600;">
+                    <div class="accordion-header" onclick="toggleAccordion(2)" class="accordion-header-last">
                         <span>Есть ли техническая поддержка? ▼</span>
                     </div>
-                    <div class="accordion-content" style="display: none; padding: 1rem; color: #666;">
+                    <div class="accordion-content" class="accordion-content-hidden">
                         Да, наша служба поддержки работает 24/7. Вы можете связаться с нами через чат или email.
                     </div>
                 </div>
@@ -607,23 +319,22 @@
 
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <button class="lightbox-nav lightbox-prev" onclick="changeLightboxImage(-1)" style="position: absolute; left: 2rem; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 2rem; display: flex; align-items: center; justify-content: center;">
+        <button class="lightbox-nav lightbox-prev" onclick="changeLightboxImage(-1)" class="lightbox-btn lightbox-prev">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
             </svg>
         </button>
-        <img id="lightboxImg" class="lightbox-content" src="" alt="" style="max-width: 90%; max-height: 90%; object-fit: contain;">
-        <button class="lightbox-nav lightbox-next" onclick="changeLightboxImage(1)" style="position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 2rem; display: flex; align-items: center; justify-content: center;">
+        <img id="lightboxImg" class="lightbox-content" src="" alt="" class="lightbox-img">
+        <button class="lightbox-nav lightbox-next" onclick="changeLightboxImage(1)" class="lightbox-btn lightbox-next">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
             </svg>
         </button>
-        <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: white; background: rgba(0,0,0,0.7); padding: 0.5rem 1rem; border-radius: 20px;" id="lightboxCounter">
+        <div class="lightbox-counter" id="lightboxCounter">
             1 / 6
         </div>
     </div>
 
-    <!-- Кнопка переключения темы -->
     <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему">
         <svg width="42" height="42" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -632,7 +343,6 @@
 
     <script src="/static/js/main.js?v=4"></script>
     <script>
-        // Слайдер
         let currentSlide = 0;
         const totalSlides = 4;
         
@@ -667,8 +377,6 @@
                 dotsContainer.appendChild(dot);
             }
         }
-        
-        // Автоматическое переключение слайдов
         setInterval(nextSlide, 5000);
         updateDots();
         
@@ -732,9 +440,9 @@
                     };
                     newItem.innerHTML = `
                         <img src="${e.target.result}" alt="${file.name}">
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; padding: 1rem; opacity: 0; transition: opacity 0.3s;">
-                            <div style="font-weight: 600;">${file.name}</div>
-                            <div style="font-size: 0.9rem;">Новое фото</div>
+                        <div class="gallery-overlay">
+                            <div class="overlay-title">${file.name}</div>
+                            <div class="fs-09">Новое фото</div>
                         </div>
                     `;
                     grid.appendChild(newItem);
@@ -865,27 +573,27 @@
             const timeAgo = getTimeAgo(uploadDate);
             
             fileItem.innerHTML = `
-                <div style="width: 40px; height: 40px; background: ${colors.bg}; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                <div class="file-icon-box">
                     ${getFileIcon(fileData.category, colors.color)}
                 </div>
-                <div style="flex: 1;">
-                    <div style="font-weight: 600;" class="file-name-display">${fileData.original_name}</div>
-                    <div style="font-size: 0.9rem; color: #666;">${fileData.size_formatted} • ${timeAgo}</div>
+                <div class="audio-details">
+                    <div class="overlay-title" class="file-name-display">${fileData.original_name}</div>
+                    <div class="file-meta">${fileData.size_formatted} • ${timeAgo}</div>
                 </div>
-                <button onclick="renameFile('${fileData.id}')" title="Переименовать" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #666;">
+                <button onclick="renameFile('${fileData.id}')" title="Переименовать" class="btn-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                 </button>
-                <button onclick="downloadFile('${fileData.id}')" title="Скачать" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #666;">
+                <button onclick="downloadFile('${fileData.id}')" title="Скачать" class="btn-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
                 </button>
-                <button onclick="deleteFile('${fileData.id}', this)" title="Удалить" style="background: none; border: none; padding: 0.5rem; cursor: pointer; color: #e74c3c;">
+                <button onclick="deleteFile('${fileData.id}', this)" title="Удалить" class="file-btn-delete">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -1066,14 +774,10 @@
                 e.preventDefault();
             }
         });
-        
-        // Аккордеон
         function toggleAccordion(index) {
             const items = document.querySelectorAll('.accordion-content');
             items[index].style.display = items[index].style.display === 'none' ? 'block' : 'none';
         }
-        
-        // Проверка и отображение ссылки на панель поддержки
         (function() {
             const token = localStorage.getItem('token');
             if (token) {
@@ -1093,3 +797,5 @@
     </script>
 </body>
 </html>
+
+
